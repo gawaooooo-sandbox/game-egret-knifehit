@@ -44,6 +44,7 @@ var LoadingUI = (function (_super) {
         return _this;
     }
     LoadingUI.prototype.createView = function () {
+        egret.log(' call loading UI createView ');
         this.textField = new egret.TextField();
         this.addChild(this.textField);
         this.textField.y = 300;

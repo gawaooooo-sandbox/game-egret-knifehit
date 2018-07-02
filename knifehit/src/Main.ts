@@ -28,49 +28,38 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 class Main extends egret.DisplayObjectContainer {
-
-
-
     public constructor() {
         super();
-        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.once(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
     private onAddToStage(event: egret.Event) {
-
         egret.lifecycle.addLifecycleListener((context) => {
             // custom lifecycle plugin
 
             context.onUpdate = () => {
-
             }
         })
 
         egret.lifecycle.onPause = () => {
+            console.log("egret onPause");
             egret.ticker.pause();
         }
 
         egret.lifecycle.onResume = () => {
+            console.log("egret onResume");
             egret.ticker.resume();
         }
 
         this.runGame().catch(e => {
             console.log(e);
         })
-
-
-
     }
 
     private async runGame() {
         await this.loadResource()
         this.createGameScene();
-        const result = await RES.getResAsync("description_json")
-        this.startAnimation(result);
-        await platform.login();
-        const userInfo = await platform.getUserInfo();
-        console.log(userInfo);
-
+        this.launchAnimation();
     }
 
     private async loadResource() {
@@ -87,103 +76,91 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     private textfield: egret.TextField;
+    private target: Target;
 
     /**
      * 创建游戏场景
      * Create a game scene
      */
     private createGameScene() {
-        let sky = this.createBitmapByName("bg_jpg");
-        this.addChild(sky);
+        const dispatcher = new MainDispatcher();
+        dispatcher.addEventListener(MainDispatcher.ADD_KNIFE, this.addKnife, this);
+        dispatcher.addEventListener(MainDispatcher.REMOVE_KNIFE, this.removeAllKnife, this);
+
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
-        sky.width = stageW;
-        sky.height = stageH;
 
-        let topMask = new egret.Shape();
-        topMask.graphics.beginFill(0x000000, 0.5);
-        topMask.graphics.drawRect(0, 0, stageW, 172);
-        topMask.graphics.endFill();
-        topMask.y = 33;
-        this.addChild(topMask);
+        // set background color
+        const background = new egret.Shape;
+        background.graphics.beginFill(0x444444);
+        background.graphics.drawRect(0, 0, stageW, stageH);
+        background.graphics.endFill();
+        this.addChild(background);
 
-        let icon = this.createBitmapByName("egret_icon_png");
-        this.addChild(icon);
-        icon.x = 26;
-        icon.y = 33;
+        // set target, throwKnife
+        this.target = new Target(stageW, stageH);
+        const knifeManager = new KnifeManager(stageW, stageH, this.target, dispatcher);
+        const throwKnife = knifeManager.getThrowKnifeInstance();
 
-        let line = new egret.Shape();
-        line.graphics.lineStyle(2, 0xffffff);
-        line.graphics.moveTo(0, 0);
-        line.graphics.lineTo(0, 117);
-        line.graphics.endFill();
-        line.x = 172;
-        line.y = 61;
-        this.addChild(line);
+        this.addChildAt(throwKnife, 1);
+        this.addChildAt(this.target, 2);     
 
+        // add touch event
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, (evt: egret.TouchEvent) => {
+            throwKnife.throw();
+        }, this);
 
-        let colorLabel = new egret.TextField();
-        colorLabel.textColor = 0xffffff;
-        colorLabel.width = stageW - 172;
-        colorLabel.textAlign = "center";
-        colorLabel.text = "Hello Egret";
-        colorLabel.size = 24;
-        colorLabel.x = 172;
-        colorLabel.y = 80;
-        this.addChild(colorLabel);
-
+        // TODO: test text
         let textfield = new egret.TextField();
         this.addChild(textfield);
-        textfield.alpha = 0;
         textfield.width = stageW - 172;
-        textfield.textAlign = egret.HorizontalAlign.CENTER;
+        textfield.textAlign = egret.HorizontalAlign.LEFT;
         textfield.size = 24;
         textfield.textColor = 0xffffff;
-        textfield.x = 172;
-        textfield.y = 135;
+        textfield.type = egret.TextFieldType.DYNAMIC;
+        textfield.lineSpacing = 6;
+        textfield.x = 0;
+        textfield.y = 0;
         this.textfield = textfield;
-
-
     }
 
-    /**
-     * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-     * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
-     */
-    private createBitmapByName(name: string) {
-        let result = new egret.Bitmap();
-        let texture: egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
+    private addKnife(event:egret.Event) {
+        if (!event.data) {
+            return;
+        }
+
+        const knife = event.data;
+        this.addChildAt(knife, 1);
+     }
+
+    private removeAllKnife(event:egret.Event) {
+        if (!event.data) {
+            return;
+        }
+        const hitKnifes = event.data;
+
+        hitKnifes.forEach(knife => {
+            this.removeChild(knife);
+        });
     }
 
-    /**
-     * 描述文件加载成功，开始播放动画
-     * Description file loading is successful, start to play the animation
-     */
-    private startAnimation(result: string[]) {
-        let parser = new egret.HtmlTextParser();
+    private launchAnimation() {
+        this.addEventListener(egret.Event.ENTER_FRAME, (evt: egret.Event) => {
+            this.textfield.text = `Rotation: ${this.target.rotation}`;
+            return false;
+        }, this);
+    }
+}
 
-        let textflowArr = result.map(text => parser.parse(text));
-        let textfield = this.textfield;
-        let count = -1;
-        let change = () => {
-            count++;
-            if (count >= textflowArr.length) {
-                count = 0;
-            }
-            let textFlow = textflowArr[count];
+class MainDispatcher extends egret.EventDispatcher {
+    public static ADD_KNIFE = 'addknife';
+    public static REMOVE_KNIFE = 'removeknife';
 
-            // 切换描述内容
-            // Switch to described content
-            textfield.textFlow = textFlow;
-            let tw = egret.Tween.get(textfield);
-            tw.to({ "alpha": 1 }, 200);
-            tw.wait(2000);
-            tw.to({ "alpha": 0 }, 200);
-            tw.call(change, this);
-        };
+    public add(knife:HitKnife) {
+        this.dispatchEventWith(MainDispatcher.ADD_KNIFE, false, knife);
+    }
 
-        change();
+    public removeAll(knifes: HitKnife[]) {
+        this.dispatchEventWith(MainDispatcher.REMOVE_KNIFE, false, knifes);
     }
 }

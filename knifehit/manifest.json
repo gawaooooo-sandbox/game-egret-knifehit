@@ -8,8 +8,13 @@
 		"libs/modules/promise/promise.js"
 	],
 	"game": [
+		"bin-debug/BitmapBase.js",
+		"bin-debug/Knife.js",
+		"bin-debug/HitKnife.js",
+		"bin-debug/KnifeManager.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
-		"bin-debug/Platform.js"
+		"bin-debug/Target.js",
+		"bin-debug/ThrowKnife.js"
 	]
 }
