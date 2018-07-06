@@ -18,7 +18,6 @@ var ThrowKnife = (function (_super) {
         return _this;
     }
     ThrowKnife.prototype.setOption = function () {
-        console.log('throw knife set option ');
         this.anchorOffsetX = this.width / 2;
         this.anchorOffsetY = this.height / 2;
         this.x = this.stageWidth / 2;

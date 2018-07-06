@@ -79,7 +79,6 @@ var Main = (function (_super) {
         return _this;
     }
     Main.prototype.onAddToStage = function (event) {
-        console.log('call Main#onAddToStage');
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
             context.onUpdate = function () {
@@ -194,11 +193,10 @@ var Main = (function (_super) {
         });
     };
     Main.prototype.launchAnimation = function () {
-        var _this = this;
-        this.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
-            _this.textfield.text = "Rotation: " + _this.target.rotation;
-            return false;
-        }, this);
+        // this.addEventListener(egret.Event.ENTER_FRAME, (evt: egret.Event) => {
+        //     this.textfield.text = `Rotation: ${this.target.rotation}`;
+        //     return false;
+        // }, this);
     };
     return Main;
 }(egret.DisplayObjectContainer));
