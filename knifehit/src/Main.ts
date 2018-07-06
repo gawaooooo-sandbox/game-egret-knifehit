@@ -145,10 +145,10 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     private launchAnimation() {
-        this.addEventListener(egret.Event.ENTER_FRAME, (evt: egret.Event) => {
-            this.textfield.text = `Rotation: ${this.target.rotation}`;
-            return false;
-        }, this);
+        // this.addEventListener(egret.Event.ENTER_FRAME, (evt: egret.Event) => {
+        //     this.textfield.text = `Rotation: ${this.target.rotation}`;
+        //     return false;
+        // }, this);
     }
 }
 
