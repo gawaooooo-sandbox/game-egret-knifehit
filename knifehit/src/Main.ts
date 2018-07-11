@@ -30,8 +30,11 @@
 class Main extends egret.DisplayObjectContainer {
     public constructor() {
         super();
+        // const stage:egret.Stage = egret.MainContext.instance.stage;
+        // egret.log(`egret frame rate: ${stage.frameRate}`);
+
         this.once(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
-    }
+     }
 
     private onAddToStage(event: egret.Event) {
         egret.lifecycle.addLifecycleListener((context) => {
@@ -111,17 +114,17 @@ class Main extends egret.DisplayObjectContainer {
         }, this);
 
         // TODO: test text
-        let textfield = new egret.TextField();
-        this.addChild(textfield);
-        textfield.width = stageW - 172;
-        textfield.textAlign = egret.HorizontalAlign.LEFT;
-        textfield.size = 24;
-        textfield.textColor = 0xffffff;
-        textfield.type = egret.TextFieldType.DYNAMIC;
-        textfield.lineSpacing = 6;
-        textfield.x = 0;
-        textfield.y = 0;
-        this.textfield = textfield;
+        // let textfield = new egret.TextField();
+        // this.addChild(textfield);
+        // textfield.width = stageW - 172;
+        // textfield.textAlign = egret.HorizontalAlign.LEFT;
+        // textfield.size = 24;
+        // textfield.textColor = 0xffffff;
+        // textfield.type = egret.TextFieldType.DYNAMIC;
+        // textfield.lineSpacing = 6;
+        // textfield.x = 0;
+        // textfield.y = 0;
+        // this.textfield = textfield;
     }
 
     private addKnife(event:egret.Event) {

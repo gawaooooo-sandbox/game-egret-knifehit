@@ -1,7 +1,7 @@
 class Target extends BitMapBase {
     private stageWidth: number;
     private stageHeight: number;
-    private static STEP_ROT = 6;
+    private static STEP_ROT = 3;
     private static PNG_NAME = 'target_png';
 
     public constructor(stageWidth: number, stageHeight: number) {

@@ -31,7 +31,7 @@ var Target = (function (_super) {
             return false;
         }, this);
     };
-    Target.STEP_ROT = 6;
+    Target.STEP_ROT = 3;
     Target.PNG_NAME = 'target_png';
     return Target;
 }(BitMapBase));

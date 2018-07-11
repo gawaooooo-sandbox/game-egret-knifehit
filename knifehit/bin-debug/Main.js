@@ -75,6 +75,8 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
+        // const stage:egret.Stage = egret.MainContext.instance.stage;
+        // egret.log(`egret frame rate: ${stage.frameRate}`);
         _this.once(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -163,17 +165,17 @@ var Main = (function (_super) {
             throwKnife.throw();
         }, this);
         // TODO: test text
-        var textfield = new egret.TextField();
-        this.addChild(textfield);
-        textfield.width = stageW - 172;
-        textfield.textAlign = egret.HorizontalAlign.LEFT;
-        textfield.size = 24;
-        textfield.textColor = 0xffffff;
-        textfield.type = egret.TextFieldType.DYNAMIC;
-        textfield.lineSpacing = 6;
-        textfield.x = 0;
-        textfield.y = 0;
-        this.textfield = textfield;
+        // let textfield = new egret.TextField();
+        // this.addChild(textfield);
+        // textfield.width = stageW - 172;
+        // textfield.textAlign = egret.HorizontalAlign.LEFT;
+        // textfield.size = 24;
+        // textfield.textColor = 0xffffff;
+        // textfield.type = egret.TextFieldType.DYNAMIC;
+        // textfield.lineSpacing = 6;
+        // textfield.x = 0;
+        // textfield.y = 0;
+        // this.textfield = textfield;
     };
     Main.prototype.addKnife = function (event) {
         if (!event.data) {

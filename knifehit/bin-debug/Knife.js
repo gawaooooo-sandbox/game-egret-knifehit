@@ -17,7 +17,7 @@ var Knife = (function (_super) {
         _this.target = target;
         return _this;
     }
-    Knife.STEP_ROT = 6;
+    Knife.STEP_ROT = 3;
     Knife.PNG_NAME = 'knife_png';
     return Knife;
 }(BitMapBase));

@@ -2,7 +2,7 @@ class Knife extends BitMapBase {
     protected stageWidth: number;
     protected stageHeight: number;
     protected target: Target;
-    protected static STEP_ROT = 6;
+    protected static STEP_ROT = 3;
     private static PNG_NAME = 'knife_png';
 
     public constructor(stageWidth: number, stageHeight: number, target: Target) {
