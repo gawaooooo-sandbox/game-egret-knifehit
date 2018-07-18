@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Wing Player",
+            "type": "chrome",
+            "request": "launch",
+            "file": "index.html",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}",
+            "runtimeExecutable": "${execPath}",
+            "preLaunchTask": "build",
+            "port": 3003
+        },
+        {
+            "name": "Launch Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "file": "index.html",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}",
+            "preLaunchTask": "build",
+            "userDataDir": "${tmpdir}",
+            "port": 3003
+        },
+        {
+            "name": "Attach to Chrome",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}"
+        }
+    ]
+}

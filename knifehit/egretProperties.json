@@ -19,6 +19,9 @@
       "name": "assetsmanager"
     },
     {
+      "name": "egret-facebook"
+    },
+    {
       "name": "promise"
     }
   ]

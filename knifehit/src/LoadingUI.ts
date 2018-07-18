@@ -46,7 +46,12 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
         this.textField.textAlign = "center";
     }
 
+    // TODO: FBTEST
     public onProgress(current: number, total: number): void {
         this.textField.text = `Loading...${current}/${total}`;
+        // percentage number A number between 0 and 100.
+        const percentage = Math.round(current / total * 100);
+        egret.log(`percentage: ${percentage}`);
+        FBInstant.setLoadingProgress(percentage);
     }
 }

@@ -54,15 +54,40 @@ class Main extends egret.DisplayObjectContainer {
             egret.ticker.resume();
         }
 
-        this.runGame().catch(e => {
-            console.log(e);
-        })
+        console.log(FBInstant);
+        // TODO: FBTEST
+        FBInstant.initializeAsync().then(() => {
+            const locale = FBInstant.getLocale(); // 'en_US'
+            const platform = FBInstant.getPlatform(); // 'IOS'
+            const sdkVersion = FBInstant.getSDKVersion(); // '4.1'
+            const playerID = FBInstant.player.getID();
+            egret.log(' FB information : ');
+            egret.log(locale, platform, sdkVersion, playerID);
+
+            this.runGame().catch(e => {
+                console.log(e);
+            })
+        });
     }
 
     private async runGame() {
         await this.loadResource()
-        this.createGameScene();
-        this.launchAnimation();
+
+        // TODO : FB FBTEST
+        FBInstant.startGameAsync().then(() => {
+            const contextId = FBInstant.context.getID();
+            const contextType = FBInstant.context.getType();
+
+            const playerName = FBInstant.player.getName();
+            const playerPic = FBInstant.player.getPhoto();
+            const playerId = FBInstant.player.getID();
+
+            egret.log('FBInstant startGameAsync');
+            egret.log(contextId, contextType, playerName, playerPic, playerId);
+
+            this.createGameScene();
+            this.launchAnimation();
+        });
     }
 
     private async loadResource() {

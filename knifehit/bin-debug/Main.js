@@ -81,6 +81,7 @@ var Main = (function (_super) {
         return _this;
     }
     Main.prototype.onAddToStage = function (event) {
+        var _this = this;
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
             context.onUpdate = function () {
@@ -94,19 +95,42 @@ var Main = (function (_super) {
             console.log("egret onResume");
             egret.ticker.resume();
         };
-        this.runGame().catch(function (e) {
-            console.log(e);
+        console.log(FBInstant);
+        // TODO: FBTEST
+        FBInstant.initializeAsync().then(function () {
+            var locale = FBInstant.getLocale(); // 'en_US'
+            var platform = FBInstant.getPlatform(); // 'IOS'
+            var sdkVersion = FBInstant.getSDKVersion(); // '4.1'
+            var playerID = FBInstant.player.getID();
+            egret.log(' FB information : ');
+            egret.log(locale, platform, sdkVersion, playerID);
+            _this.runGame().catch(function (e) {
+                console.log(e);
+            });
         });
     };
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.loadResource()];
+                    case 0: return [4 /*yield*/, this.loadResource()
+                        // TODO : FB FBTEST
+                    ];
                     case 1:
                         _a.sent();
-                        this.createGameScene();
-                        this.launchAnimation();
+                        // TODO : FB FBTEST
+                        FBInstant.startGameAsync().then(function () {
+                            var contextId = FBInstant.context.getID();
+                            var contextType = FBInstant.context.getType();
+                            var playerName = FBInstant.player.getName();
+                            var playerPic = FBInstant.player.getPhoto();
+                            var playerId = FBInstant.player.getID();
+                            egret.log('FBInstant startGameAsync');
+                            egret.log(contextId, contextType, playerName, playerPic, playerId);
+                            _this.createGameScene();
+                            _this.launchAnimation();
+                        });
                         return [2 /*return*/];
                 }
             });

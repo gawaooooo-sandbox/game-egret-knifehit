@@ -52,8 +52,13 @@ var LoadingUI = (function (_super) {
         this.textField.height = 100;
         this.textField.textAlign = "center";
     };
+    // TODO: FBTEST
     LoadingUI.prototype.onProgress = function (current, total) {
         this.textField.text = "Loading..." + current + "/" + total;
+        // percentage number A number between 0 and 100.
+        var percentage = Math.round(current / total * 100);
+        egret.log("percentage: " + percentage);
+        FBInstant.setLoadingProgress(percentage);
     };
     return LoadingUI;
 }(egret.Sprite));

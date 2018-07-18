@@ -1,0 +1,20 @@
+{
+	"groups": [
+		{
+			"keys": "knife_png,target_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/knife.png",
+			"type": "image",
+			"name": "knife_png"
+		},
+		{
+			"url": "assets/target.png",
+			"type": "image",
+			"name": "target_png"
+		}
+	]
+}
